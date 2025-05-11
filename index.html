@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web-D Assignment | Suruchi Singh</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f0f2f5, #e6f0ff);
+      color: #333;
+    }
+
+    header {
+      background-color: #003366;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    header p {
+      margin-top: 5px;
+      font-size: 1.2em;
+      color: #cce0ff;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    section {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: #003366;
+    }
+
+    textarea, input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      margin: 5px 5px 10px 0;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #colorBox, #displayNote, #result, #feedbackList, #entries, #welcomeMessage {
+      margin-top: 10px;
+    }
+
+    img {
+      max-width: 100px;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #003366;
+      color: #fff;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 1000px) {
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Web Development Assignment</h1>
+  <p>By Suruchi Singh</p>
+</header>
+
+<div class="container">
+  <!-- LEFT COLUMN -->
+  <div class="column">
+    <section>
+      <h2>📓 Daily Journal</h2>
+      <textarea id="journalEntry" placeholder="Write something..."></textarea>
+      <button onclick="saveEntry()">Save Entry</button>
+      <div id="entries"></div>
+    </section>
+
+    <section>
+      <h2>🎨 Color Mixer</h2>
+      <label>Red: <span id="redValue">0</span></label>
+      <input type="range" id="red" min="0" max="255" oninput="updateColor()">
+      <label>Green: <span id="greenValue">0</span></label>
+      <input type="range" id="green" min="0" max="255" oninput="updateColor()">
+      <label>Blue: <span id="blueValue">0</span></label>
+      <input type="range" id="blue" min="0" max="255" oninput="updateColor()">
+      <div id="colorBox" style="height: 60px; border: 1px solid #333;"></div>
+    </section>
+
+    <section>
+      <h2>🌟 Quote Generator</h2>
+      <blockquote id="quote">"Push yourself, because no one else will."</blockquote>
+      <cite id="author">- Unknown</cite><br>
+      <button onclick="generateQuote()">✨ New Quote</button>
+    </section>
+
+    <section>
+      <h2>📝 Notes App</h2>
+      <textarea id="noteInput" placeholder="Write your note..."></textarea>
+      <br>
+      <button onclick="saveNote()">Save</button>
+      <button onclick="clearNote()">Clear</button>
+      <div id="displayNote"></div>
+    </section>
+
+    <section>
+      <h2>🛠️ Form Validation</h2>
+      <form id="userForm">
+        <input type="text" id="name" placeholder="Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>💡 Light Bulb Toggle</h2>
+      <img id="bulbImage" src="https://www.w3schools.com/js/pic_bulboff.gif">
+      <br>
+      <button id="toggleButton">Turn ON</button>
+    </section>
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="column">
+    <section>
+      <h2>⏰ Digital Clock</h2>
+      <div id="clock" style="font-size: 2em;">00:00:00</div>
+      <button id="toggleClock">Start Clock</button>
+    </section>
+
+    <section>
+      <h2>⭐ Feedback Collector</h2>
+      <input type="text" id="fbName" placeholder="Your Name">
+      <select id="fbRating">
+        <option value="">Rate us</option>
+        <option value="⭐">⭐</option>
+        <option value="⭐⭐">⭐⭐</option>
+        <option value="⭐⭐⭐">⭐⭐⭐</option>
+        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+      </select>
+      <textarea id="fbMessage" placeholder="Your feedback..."></textarea>
+      <button onclick="submitFeedback()">Submit</button>
+      <div id="feedbackList"></div>
+    </section>
+
+    <section>
+      <h2>📊 Grade Calculator</h2>
+      <input type="number" id="marks" placeholder="Enter your marks">
+      <button onclick="calculateGrade()">Check Grade</button>
+      <div id="result"></div>
+    </section>
+
+    <section>
+      <h2>🔐 Show/Hide Password</h2>
+      <input type="password" id="pwdField" placeholder="Enter password">
+      <button onclick="togglePassword()">Show Password</button>
+    </section>
+
+    <section>
+      <h2>👋 Session Welcome</h2>
+      <input type="text" id="userName" placeholder="Enter your name">
+      <button onclick="storeName()">Submit</button>
+      <div id="welcomeMessage"></div>
+    </section>
+
+    <section>
+      <h2>🎯 Button Color Toggle</h2>
+      <button id="colorButton" style="font-size: 1.5em; padding: 20px 40px; background-color: blue;">Click Me</button>
+    </section>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Suruchi Singh. All rights reserved.</p>
+</footer>
+
+<script>
+  // On Load
+  window.onload = function () {
+    loadEntries();
+    displayNote();
+    updateClockDisplay();
+    const storedName = sessionStorage.getItem("userName");
+    if (storedName) {
+      document.getElementById("welcomeMessage").innerText = `Welcome back, ${storedName}!`;
+      document.getElementById("userName").style.display = "none";
+    }
+  };
+
+  // Daily Journal
+  function saveEntry() {
+    const text = document.getElementById("journalEntry").value.trim();
+    if (!text) return alert("Please write something.");
+    const entry = { content: text, date: new Date().toLocaleString() };
+    let journal = JSON.parse(localStorage.getItem("journal")) || [];
+    journal.unshift(entry);
+    localStorage.setItem("journal", JSON.stringify(journal));
+    document.getElementById("journalEntry").value = "";
+    loadEntries();
+  }
+
+  function loadEntries() {
+    const journal = JSON.parse(localStorage.getItem("journal")) || [];
+    const container = document.getElementById("entries");
+    container.innerHTML = journal.map(e => `<div><time>${e.date}</time><p>${e.content}</p></div>`).join('') || "No entries yet.";
+  }
+
+  // Color Mixer
+  function updateColor() {
+    let r = document.getElementById("red").value;
+    let g = document.getElementById("green").value;
+    let b = document.getElementById("blue").value;
+    document.getElementById("redValue").innerText = r;
+    document.getElementById("greenValue").innerText = g;
+    document.getElementById("blueValue").innerText = b;
+    document.getElementById("colorBox").style.backgroundColor = `rgb(${r},${g},${b})`;
+  }
+
+  // Quote Generator
+  const quotes = [
+    { text: "Dream it. Wish it. Do it.", author: "Unknown" },
+    { text: "Push yourself, because no one else will.", author: "Unknown" },
+    { text: "Success is not in what you have, but who you are.", author: "Bo Bennett" }
+  ];
+  function generateQuote() {
+    let q = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById("quote").innerText = `"${q.text}"`;
+    document.getElementById("author").innerText = `- ${q.author}`;
+  }
+
+  // Notes App
+  function saveNote() {
+    const note = document.getElementById("noteInput").value;
+    localStorage.setItem("savedNote", note);
+    displayNote();
+  }
+  function clearNote() {
+    localStorage.removeItem("savedNote");
+    displayNote();
+  }
+  function displayNote() {
+    const saved = localStorage.getItem("savedNote");
+    document.getElementById("displayNote").innerHTML = saved ? `<strong>Your Note:</strong><br>${saved}` : "No note saved yet.";
+  }
+
+  // Form Validation
+  document.getElementById("userForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
+    if (!name || !email || !pass) {
+      alert("All fields are required!");
+    } else {
+      alert("Form submitted successfully!");
+    }
+  });
+
+  // Light Bulb Toggle
+  document.getElementById("toggleButton").onclick = function () {
+    let img = document.getElementById("bulbImage");
+    if (img.src.includes("off")) {
+      img.src = "https://www.w3schools.com/js/pic_bulbon.gif";
+      this.innerText = "Turn OFF";
+    } else {
+      img.src = "https://www.w3schools.com/js/pic_bulboff.gif";
+      this.innerText = "Turn ON";
+    }
+  };
+
+  // Clock
+  let clockInterval;
+  let isRunning = false;
+  function updateClockDisplay() {
+    const now = new Date();
+    document.getElementById("clock").innerText = now.toLocaleTimeString();
+  }
+  document.getElementById("toggleClock").onclick = function () {
+    if (!isRunning) {
+      clockInterval = setInterval(updateClockDisplay, 1000);
+      this.innerText = "Stop Clock";
+    } else {
+      clearInterval(clockInterval);
+      this.innerText = "Start Clock";
+    }
+    isRunning = !isRunning;
+  };
+
+  // Feedback
+  function submitFeedback() {
+    let name = document.getElementById("fbName").value;
+    let rating = document.getElementById("fbRating").value;
+    let message = document.getElementById("fbMessage").value;
+    if (!name || !rating || !message) return alert("All fields required.");
+    const feedback = `<div><strong>${name}</strong> rated us ${rating}<p>${message}</p></div>`;
+    document.getElementById("feedbackList").innerHTML += feedback;
+    document.getElementById("fbName").value = "";
+    document.getElementById("fbRating").value = "";
+    document.getElementById("fbMessage").value = "";
+  }
+
+  // Grade Calculator
+  function calculateGrade() {
+    let marks = document.getElementById("marks").value;
+    let grade = marks >= 90 ? "A+" :
+                marks >= 80 ? "A" :
+                marks >= 70 ? "B" :
+                marks >= 60 ? "C" :
+                marks >= 50 ? "D" : "F (Fail)";
+    document.getElementById("result").innerHTML = `Your Grade: <strong>${grade}</strong>`;
+  }
+
+  // Password Toggle
+  function togglePassword() {
+    let field = document.getElementById("pwdField");
+    if (field.type === "password") {
+      field.type = "text";
+      event.target.textContent = "Hide Password";
+    } else {
+      field.type = "password";
+      event.target.textContent = "Show Password";
+    }
+  }
+
+  // Session Storage
+  function storeName() {
+    const input = document.getElementById("userName");
+    const name = input.value.trim();
+    if (!name) return alert("Please enter your name.");
+    sessionStorage.setItem("userName", name);
+    document.getElementById("welcomeMessage").innerText = `Welcome, ${name}!`;
+    input.style.display = "none";
+  }
+
+  // Button Color Toggle
+  document.getElementById("colorButton").onclick = function () {
+    this.style.backgroundColor = this.style.backgroundColor === "red" ? "blue" : "red";
+  };
+</script>
+
+</body>
+</html>
